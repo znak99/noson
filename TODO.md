@@ -4,7 +4,8 @@
 
 ## 미대응
 
-등록된 작업이 없습니다.
+1. **GMO Coin Public API 제3자 이용 조건 공식 문의 및 답변 반영**
+   - 구체적인 설명: 준비된 일본어 문안을 GMO Coin 공식 문의 양식으로 제출하고, 제3자 모바일 앱의 시세 재표시·캐시·가공, Cloudflare Worker의 정기 1분봉 조회, 출처·상표 표시, Public REST 호출 제한 및 스토어 배포 조건에 대한 답변을 확보한다. 제출일과 문의 번호, 답변 내용을 `docs/GMO_COIN_API_VALIDATION.md`에 기록하고, 결과에 따라 `docs/SYSTEM_DESIGN_V1.md`에서 GMO Coin 채택을 확정하거나 대체 데이터 공급자 검토로 전환한다.
 
 ## 진행중
 
