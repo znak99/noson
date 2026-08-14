@@ -1,0 +1,982 @@
+{
+  "_meta": {
+    "description": "This file contains a serialized version of schema entities for drift.",
+    "version": "1.3.0"
+  },
+  "options": {
+    "store_date_time_values_as_text": false
+  },
+  "entities": [
+    {
+      "id": 0,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "app_installations",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('1')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "installation_id",
+            "getter_name": "installationId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "UNIQUE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "UNIQUE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "unique",
+              {
+                "allowed-lengths": {
+                  "min": 36,
+                  "max": 36
+                }
+              }
+            ]
+          },
+          {
+            "name": "created_at_micros",
+            "getter_name": "createdAtMicros",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "onboarding_completed",
+            "getter_name": "onboardingCompleted",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"onboarding_completed\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"onboarding_completed\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "portfolio_generation",
+            "getter_name": "portfolioGeneration",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('1')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "last_reset_at_micros",
+            "getter_name": "lastResetAtMicros",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (id = 1)",
+          "CHECK (created_at_micros > 0)",
+          "CHECK (portfolio_generation >= 1)",
+          "CHECK (last_reset_at_micros IS NULL OR last_reset_at_micros >= created_at_micros)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 1,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "app_settings",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "key",
+            "getter_name": "key",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 100
+                }
+              }
+            ]
+          },
+          {
+            "name": "value",
+            "getter_name": "value",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "updated_at_micros",
+            "getter_name": "updatedAtMicros",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (updated_at_micros > 0)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "key"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "jpy_balances",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('1')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "available",
+            "getter_name": "available",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'1000000\\'')",
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "reserved",
+            "getter_name": "reserved",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'0\\'')",
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "updated_at_micros",
+            "getter_name": "updatedAtMicros",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (id = 1)",
+          "CHECK (updated_at_micros > 0)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "asset_positions",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "symbol",
+            "getter_name": "symbol",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 3,
+                  "max": 4
+                }
+              }
+            ]
+          },
+          {
+            "name": "quantity",
+            "getter_name": "quantity",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "total_cost_basis",
+            "getter_name": "totalCostBasis",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "reserved_quantity",
+            "getter_name": "reservedQuantity",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'0\\'')",
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "updated_at_micros",
+            "getter_name": "updatedAtMicros",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (symbol IN ('BTC', 'ETH', 'XRP', 'SOL', 'DOGE'))",
+          "CHECK (updated_at_micros > 0)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "symbol"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "references": [
+        0
+      ],
+      "type": "table",
+      "data": {
+        "name": "local_orders",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 36,
+                  "max": 36
+                }
+              }
+            ]
+          },
+          {
+            "name": "installation_key",
+            "getter_name": "installationKey",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES app_installations (id) ON DELETE RESTRICT",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES app_installations (id) ON DELETE RESTRICT"
+            },
+            "default_dart": "const CustomExpression('1')",
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "app_installations",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "portfolio_generation",
+            "getter_name": "portfolioGeneration",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "order_kind",
+            "getter_name": "orderKind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 5,
+                  "max": 6
+                }
+              }
+            ]
+          },
+          {
+            "name": "side",
+            "getter_name": "side",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 3,
+                  "max": 4
+                }
+              }
+            ]
+          },
+          {
+            "name": "symbol",
+            "getter_name": "symbol",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 3,
+                  "max": 4
+                }
+              }
+            ]
+          },
+          {
+            "name": "status",
+            "getter_name": "status",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 40
+                }
+              }
+            ]
+          },
+          {
+            "name": "is_terminal",
+            "getter_name": "isTerminal",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"is_terminal\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"is_terminal\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "requested_price",
+            "getter_name": "requestedPrice",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "requested_quantity",
+            "getter_name": "requestedQuantity",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "reserved_jpy",
+            "getter_name": "reservedJpy",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'0\\'')",
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "reserved_quantity",
+            "getter_name": "reservedQuantity",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'0\\'')",
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "server_order_id",
+            "getter_name": "serverOrderId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "defaultConstraints": "UNIQUE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "UNIQUE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "unique"
+            ]
+          },
+          {
+            "name": "idempotency_key",
+            "getter_name": "idempotencyKey",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "UNIQUE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "UNIQUE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "unique",
+              {
+                "allowed-lengths": {
+                  "min": 36,
+                  "max": 36
+                }
+              }
+            ]
+          },
+          {
+            "name": "created_at_micros",
+            "getter_name": "createdAtMicros",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "updated_at_micros",
+            "getter_name": "updatedAtMicros",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (installation_key = 1)",
+          "CHECK (portfolio_generation >= 1)",
+          "CHECK (order_kind IN ('market', 'limit'))",
+          "CHECK (side IN ('buy', 'sell'))",
+          "CHECK (symbol IN ('BTC', 'ETH', 'XRP', 'SOL', 'DOGE'))",
+          "CHECK ((order_kind = 'market' AND requested_price IS NULL) OR (order_kind = 'limit' AND requested_price IS NOT NULL))",
+          "CHECK (created_at_micros > 0)",
+          "CHECK (updated_at_micros >= created_at_micros)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "references": [
+        4
+      ],
+      "type": "table",
+      "data": {
+        "name": "trade_executions",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 36,
+                  "max": 36
+                }
+              }
+            ]
+          },
+          {
+            "name": "order_id",
+            "getter_name": "orderId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "UNIQUE REFERENCES local_orders (id) ON DELETE CASCADE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "UNIQUE REFERENCES local_orders (id) ON DELETE CASCADE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "local_orders",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              },
+              "unique"
+            ]
+          },
+          {
+            "name": "liquidity_role",
+            "getter_name": "liquidityRole",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 5,
+                  "max": 5
+                }
+              }
+            ]
+          },
+          {
+            "name": "price",
+            "getter_name": "price",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "quantity",
+            "getter_name": "quantity",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "gross_amount",
+            "getter_name": "grossAmount",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "fee",
+            "getter_name": "fee",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "settlement_amount",
+            "getter_name": "settlementAmount",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 64
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const FixedDecimalConverter()",
+              "dart_type_name": "FixedDecimal"
+            }
+          },
+          {
+            "name": "executed_at_micros",
+            "getter_name": "executedAtMicros",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (liquidity_role IN ('maker', 'taker'))",
+          "CHECK (executed_at_micros > 0)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "references": [
+        4
+      ],
+      "type": "index",
+      "data": {
+        "on": 4,
+        "name": "local_orders_generation_status",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "portfolio_generation",
+            "order_by": null
+          },
+          {
+            "column": "status",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "references": [
+        5
+      ],
+      "type": "index",
+      "data": {
+        "on": 5,
+        "name": "trade_executions_time",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "executed_at_micros",
+            "order_by": null
+          }
+        ]
+      }
+    }
+  ],
+  "fixed_sql": [
+    {
+      "name": "app_installations",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"app_installations\" (\"id\" INTEGER NOT NULL DEFAULT 1, \"installation_id\" TEXT NOT NULL UNIQUE, \"created_at_micros\" INTEGER NOT NULL, \"onboarding_completed\" INTEGER NOT NULL DEFAULT 0 CHECK (\"onboarding_completed\" IN (0, 1)), \"portfolio_generation\" INTEGER NOT NULL DEFAULT 1, \"last_reset_at_micros\" INTEGER NULL, PRIMARY KEY (\"id\"), CHECK (id = 1), CHECK (created_at_micros > 0), CHECK (portfolio_generation >= 1), CHECK (last_reset_at_micros IS NULL OR last_reset_at_micros >= created_at_micros)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "app_settings",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"app_settings\" (\"key\" TEXT NOT NULL, \"value\" TEXT NOT NULL, \"updated_at_micros\" INTEGER NOT NULL, PRIMARY KEY (\"key\"), CHECK (updated_at_micros > 0)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "jpy_balances",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"jpy_balances\" (\"id\" INTEGER NOT NULL DEFAULT 1, \"available\" TEXT NOT NULL DEFAULT '1000000', \"reserved\" TEXT NOT NULL DEFAULT '0', \"updated_at_micros\" INTEGER NOT NULL, PRIMARY KEY (\"id\"), CHECK (id = 1), CHECK (updated_at_micros > 0)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "asset_positions",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"asset_positions\" (\"symbol\" TEXT NOT NULL, \"quantity\" TEXT NOT NULL, \"total_cost_basis\" TEXT NOT NULL, \"reserved_quantity\" TEXT NOT NULL DEFAULT '0', \"updated_at_micros\" INTEGER NOT NULL, PRIMARY KEY (\"symbol\"), CHECK (symbol IN ('BTC', 'ETH', 'XRP', 'SOL', 'DOGE')), CHECK (updated_at_micros > 0)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "local_orders",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"local_orders\" (\"id\" TEXT NOT NULL, \"installation_key\" INTEGER NOT NULL DEFAULT 1 REFERENCES app_installations (id) ON DELETE RESTRICT, \"portfolio_generation\" INTEGER NOT NULL, \"order_kind\" TEXT NOT NULL, \"side\" TEXT NOT NULL, \"symbol\" TEXT NOT NULL, \"status\" TEXT NOT NULL, \"is_terminal\" INTEGER NOT NULL DEFAULT 0 CHECK (\"is_terminal\" IN (0, 1)), \"requested_price\" TEXT NULL, \"requested_quantity\" TEXT NOT NULL, \"reserved_jpy\" TEXT NOT NULL DEFAULT '0', \"reserved_quantity\" TEXT NOT NULL DEFAULT '0', \"server_order_id\" TEXT NULL UNIQUE, \"idempotency_key\" TEXT NOT NULL UNIQUE, \"created_at_micros\" INTEGER NOT NULL, \"updated_at_micros\" INTEGER NOT NULL, PRIMARY KEY (\"id\"), CHECK (installation_key = 1), CHECK (portfolio_generation >= 1), CHECK (order_kind IN ('market', 'limit')), CHECK (side IN ('buy', 'sell')), CHECK (symbol IN ('BTC', 'ETH', 'XRP', 'SOL', 'DOGE')), CHECK ((order_kind = 'market' AND requested_price IS NULL) OR (order_kind = 'limit' AND requested_price IS NOT NULL)), CHECK (created_at_micros > 0), CHECK (updated_at_micros >= created_at_micros)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "trade_executions",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"trade_executions\" (\"id\" TEXT NOT NULL, \"order_id\" TEXT NOT NULL UNIQUE REFERENCES local_orders (id) ON DELETE CASCADE, \"liquidity_role\" TEXT NOT NULL, \"price\" TEXT NOT NULL, \"quantity\" TEXT NOT NULL, \"gross_amount\" TEXT NOT NULL, \"fee\" TEXT NOT NULL, \"settlement_amount\" TEXT NOT NULL, \"executed_at_micros\" INTEGER NOT NULL, PRIMARY KEY (\"id\"), CHECK (liquidity_role IN ('maker', 'taker')), CHECK (executed_at_micros > 0)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "local_orders_generation_status",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX local_orders_generation_status ON local_orders (portfolio_generation, status)"
+        }
+      ]
+    },
+    {
+      "name": "trade_executions_time",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX trade_executions_time ON trade_executions (executed_at_micros)"
+        }
+      ]
+    }
+  ]
+}

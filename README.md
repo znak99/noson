@@ -13,6 +13,7 @@ Linux, macOS, Web 및 Windows는 출시·검증 대상이 아니다.
 
 ```bash
 flutter pub get
+dart run build_runner build
 dart format lib test
 flutter analyze
 flutter test
