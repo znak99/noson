@@ -17,12 +17,12 @@
 
 ## 진행중
 
-- **GMO Coin Public API 제3자 이용 조건 공식 문의 및 답변 반영**
-  - 구체적인 설명: 준비된 일본어 문안을 GMO Coin 공식 문의 양식으로 제출하고, 제3자 모바일 앱의 시세 재표시·캐시·가공, Cloudflare Worker의 정기 1분봉 조회, 출처·상표 표시, Public REST 호출 제한 및 스토어 배포 조건에 대한 답변을 확보한다. 제출일과 문의 번호, 답변 내용을 `docs/GMO_COIN_API_VALIDATION.md`에 기록하고, 결과에 따라 `docs/SYSTEM_DESIGN_V1.md`에서 GMO Coin 채택을 확정하거나 대체 데이터 공급자 검토로 전환한다.
-  - 진행 상황: 2026-08-13 22:09 JST에 사용자 승인을 받은 회신용 이메일 주소로 공식 문의를 제출했고, FAQ 화면 전환을 통해 접수를 확인했다. 제출 시각, 양식 선택값과 답변 대기 상태를 `docs/GMO_COIN_API_VALIDATION.md`에 기록했다. 공개 완료 화면에는 문의 번호가 표시되지 않아 접수 확인 메일 또는 답변에서 번호를 확인해야 한다. GMO Coin 안내 기준 약 3영업일 내 답변을 기다린 뒤 답변 내용을 반영하고 데이터 공급자 채택 여부를 확정한다.
-
 ## 완료
 
+- **GMO Coin Public API 제3자 이용 조건 공식 문의 및 답변 반영**
+  - 구체적인 설명: 준비된 일본어 문안을 GMO Coin 공식 문의 양식으로 제출하고, 제3자 모바일 앱의 시세 재표시·캐시·가공, Cloudflare Worker의 정기 1분봉 조회, 출처·상표 표시, Public REST 호출 제한 및 스토어 배포 조건에 대한 답변을 확보한다. 제출일과 문의 번호, 답변 내용을 `docs/GMO_COIN_API_VALIDATION.md`에 기록하고, 결과에 따라 `docs/SYSTEM_DESIGN_V1.md`에서 GMO Coin 채택을 확정하거나 대체 데이터 공급자 검토로 전환한다.
+  - 완료 내용: 2026-08-13 22:09 JST에 비영리·무료 모의투자 앱, 계정·API Key 미연동, 제3자 앱 표시·가공·캐시와 Cloudflare 정기 조회 목적을 명시해 문의했고 2026-08-14 12:25 JST에 GMO Coin 지원팀의 답변을 받았다. 지원팀은 API를 계좌 개설 고객용 서비스라고 설명하고 상업 목적 앱에서 API 문서 이용을 삼가 달라고 요청했다. 제안한 배포 형태를 허용한 답변이 아니므로 GMO Coin REST·WebSocket을 미채택하고 대체 공급자 검토로 전환했으며 답변 요약과 판단을 `docs/GMO_COIN_API_VALIDATION.md`, 시스템 설계, Cloudflare 및 스토어 검증 문서에 반영했다.
+  - 검증: 사용자가 제공한 공식 답변 화면에서 발신자와 답변 시각, 일본어 본문을 직접 확인했다. 답변 화면에는 문의 번호가 없음을 기록했고 이메일 주소와 이미지 원본은 저장소에 보관하지 않았다. 프로젝트 전체에서 조건부 GMO Coin 채택, GMO 전용 배포 게이트와 상표 문구를 검색해 공급자 중립 표현으로 갱신했으며 기술 검증 당시의 수치와 제약은 출시 기준이 아닌 과거 fixture임을 명시했다. `git diff --check`, TODO 형식과 `AGENTS.md`·`CLAUDE.md`의 바이트 단위 동일성을 확인했다.
 - **Drift 로컬 데이터 스키마와 초기 마이그레이션 구현**
   - 구체적인 설명: Installation ID, 앱 설정, JPY 잔액, 보유 자산, 거래 내역과 주문 캐시를 저장할 Drift 스키마와 제약 조건을 설계한다. 스키마 버전과 초기 마이그레이션, 최초 가상자금의 원자적 생성 및 기존 데이터 보존 경로를 구현하고 정상, 중복 초기화, 제약 위반 및 마이그레이션 테스트를 작성한다.
   - 완료 내용: SQLite `STRICT` 테이블로 Installation, 범용 설정, JPY 잔액, 자산 포지션, 시장가·지정가 주문과 주문당 하나의 불변 체결 기록을 분리했다. `FixedDecimalConverter`로 모든 금융 수치를 10진 `TEXT`에 저장하고 시각은 UTC 마이크로초 `INTEGER`로 통일했다. 최초 UUID v4 Installation ID와 `¥1,000,000`을 원자적으로 한 번만 생성하는 Repository, 설정 Repository와 미체결 주문 차단·Installation ID 유지·generation 증가 방식의 원자적 포트폴리오 리셋을 구현했다. 명시적 전진 마이그레이션 정책, 버전 1 JSON 스냅샷과 생성 검증 코드를 `docs/LOCAL_DATABASE_DESIGN.md` 및 시스템 설계에 기록했다.
