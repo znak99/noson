@@ -64,11 +64,18 @@ void main() {
       await repository.initialize();
 
       final completed = await repository.completeOnboarding();
+      final reinitialized = await repository.initialize();
       final loaded = await repository.load();
 
       expect(completed.onboardingCompleted, isTrue);
+      expect(reinitialized.onboardingCompleted, isTrue);
       expect(loaded?.onboardingCompleted, isTrue);
       expect(loaded?.installationId, _installationId);
+      expect(
+        await database.select(database.appInstallations).get(),
+        hasLength(1),
+      );
+      expect(await database.select(database.jpyBalances).get(), hasLength(1));
     });
   });
 
