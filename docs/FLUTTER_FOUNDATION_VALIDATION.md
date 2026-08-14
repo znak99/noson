@@ -16,13 +16,13 @@
 |---|---:|---|---|---|
 | [`flutter_localizations`](https://api.flutter.dev/flutter/flutter_localizations/) | Flutter SDK | 일본어 로케일과 Material 위젯 현지화 | Flutter SDK 라이선스 | 확인 |
 | [`flutter_riverpod`](https://pub.dev/packages/flutter_riverpod) | `3.3.2` | 기능별 상태와 의존성 경계 | MIT | 확인 |
-| [`drift`](https://pub.dev/packages/drift) | `2.34.3` | 자산·주문·설정의 SQLite 영속화 | MIT | 확인 |
+| [`drift`](https://pub.dev/packages/drift) | `2.34.0` | 자산·주문·설정의 SQLite 영속화 | MIT | 확인 |
 | [`drift_flutter`](https://pub.dev/packages/drift_flutter) | `0.3.1` | 모바일 Drift 데이터베이스 연결 | MIT | 확인 |
 | [`http`](https://pub.dev/packages/http) | `1.6.0` | Public REST 시장 데이터 조회 | BSD-3-Clause | 확인 |
 | [`web_socket_channel`](https://pub.dev/packages/web_socket_channel) | `3.0.3` | 실시간 시세 WebSocket 연결 | BSD-3-Clause | 확인 |
 | [`fl_chart`](https://pub.dev/packages/fl_chart) | `1.2.0` | 종목 가격 라인 차트 | MIT | 확인 |
 
-확인 시점의 최신 `flutter_riverpod 3.4.2`는 Dart 3.12 이상을 요구하므로 Dart 3.11.5와 호환되는 최신 안정판 `3.3.2`를 선택했다. 실제 해석 버전은 `pubspec.lock`에 고정한다. Drift 스키마가 아직 없으므로 코드 생성 도구는 추가하지 않았으며 다음 스키마 구현 작업에서 필요한 개발 의존성만 도입한다.
+확인 시점의 최신 `flutter_riverpod 3.4.2`는 Dart 3.12 이상을 요구하므로 Dart 3.11.5와 호환되는 안정판 `3.3.2`를 선택했다. Drift 스키마 구현에서 Flutter SDK의 `meta 1.17.0` 고정과 생성 도구의 내부 API 호환성을 확인해 런타임·`drift_dev`를 `2.34.0`, `build_runner`를 `2.15.1`로 맞췄다. 실제 해석 버전은 `pubspec.lock`에 고정한다.
 
 ## 3. 코드 구조
 

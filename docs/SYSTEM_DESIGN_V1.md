@@ -413,6 +413,10 @@ Flutter 앱은 일반 시장 데이터를 GMO Coin Public API에서 직접 조�
 
 앱 삭제 후 재설치하면 새로운 사용자 상태로 시작하는 것을 기본 방향으로 한다.
 
+2026-08-14에 확정한 로컬 스키마는 Installation, 범용 앱 설정, JPY 잔액, 종목별 자산 포지션, 시장가·지정가 주문과 주문당 하나의 불변 체결 기록을 분리한다. 금액·가격·수량·수수료는 `FixedDecimal` 변환기를 거치는 10진 `TEXT`, 시각은 UTC 마이크로초 `INTEGER`로 저장하며 모든 테이블에 SQLite `STRICT`를 사용한다.
+
+최초 Installation ID와 `¥1,000,000`은 하나의 트랜잭션에서 한 번만 생성한다. 포트폴리오 리셋은 미체결 주문의 취소·동기화가 끝난 뒤에만 허용하고 Installation ID, 앱 설정과 온보딩 상태는 유지한다. 금융 데이터는 삭제하고 JPY를 재초기화하며 포트폴리오 generation을 증가시켜 이전 서버 결과를 구분한다. 상세 테이블과 마이그레이션 절차는 `docs/LOCAL_DATABASE_DESIGN.md`를 따른다.
+
 ### 8.4 서버 저장 예외
 
 앱 종료 중 지정가 주문 처리를 위해 다음 데이터만 Cloudflare에 임시 관리한다.
@@ -436,12 +440,12 @@ MVP의 출시 및 검증 대상은 Android와 iOS로 한정한다. Linux, macOS,
 | 프레임워크 | Flutter / Dart | Flutter SDK 기준 | Flutter SDK 라이선스 |
 | 일본어 현지화 | `flutter_localizations` | Flutter SDK 기준 | Flutter SDK 라이선스 |
 | 상태 관리 | `flutter_riverpod` | `3.3.2` | MIT |
-| 로컬 데이터베이스 | `drift` + `drift_flutter` / SQLite | `2.34.3` / `0.3.1` | MIT |
+| 로컬 데이터베이스 | `drift` + `drift_flutter` / SQLite | `2.34.0` / `0.3.1` | MIT |
 | WebSocket | `web_socket_channel` | `3.0.3` | BSD-3-Clause |
 | 차트 | `fl_chart` | `1.2.0` | MIT |
 | HTTP | `http` Client | `1.6.0` | BSD-3-Clause |
 
-버전은 2026-08-14에 pub.dev의 최신 안정 버전, 대상 플랫폼과 라이선스를 확인한 초기 기준이다. 단 `flutter_riverpod 3.4.2`는 Dart 3.12 이상이 필요해 현재 Flutter 3.41.9의 Dart 3.11.5와 호환되는 최신 안정판 `3.3.2`를 사용한다. `pubspec.lock`으로 실제 해석 버전을 고정하고 업데이트 시 호환성과 라이선스를 다시 확인한다. Drift 코드 생성 도구는 스키마 구현 작업에서 필요할 때만 개발 의존성으로 추가한다.
+버전은 2026-08-14에 pub.dev의 안정 버전, 대상 플랫폼과 라이선스를 확인한 초기 기준이다. `flutter_riverpod 3.4.2`는 Dart 3.12 이상이 필요해 현재 Flutter 3.41.9의 Dart 3.11.5와 호환되는 `3.3.2`를 사용한다. Flutter SDK의 `meta 1.17.0` 고정과 생성 도구의 내부 API 호환성을 위해 Drift 런타임·`drift_dev`는 `2.34.0`, `build_runner`는 `2.15.1`로 맞춘다. `pubspec.lock`으로 실제 해석 버전을 고정하고 업데이트 시 호환성과 라이선스를 다시 확인한다.
 
 ### 9.2 백엔드
 
@@ -541,7 +545,6 @@ Cloudflare 무료 한도를 지속적으로 초과하면 자동으로 유료 전
 
 ### 12.2 데이터 및 계산
 
-- Drift 상세 스키마와 마이그레이션 정책
 - 3개월 리셋 UX, 상태 전이 및 예외 처리
 - 앱 삭제 및 재설치 관련 세부 처리
 
