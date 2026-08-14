@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'main_shell.dart';
+import '../features/onboarding/presentation/startup_gate.dart';
 
 abstract final class AppRoutes {
   static const home = '/';
@@ -11,7 +11,7 @@ abstract final class AppRouter {
     return switch (settings.name) {
       AppRoutes.home => MaterialPageRoute<void>(
         settings: settings,
-        builder: (_) => const MainShell(),
+        builder: (_) => const StartupGate(),
       ),
       _ => MaterialPageRoute<void>(
         settings: settings,

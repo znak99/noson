@@ -34,11 +34,15 @@ lib/
     ├── features/
     │   ├── market/          # 종목 화면
     │   ├── portfolio/       # 자산 화면
-    │   └── menu/            # 메뉴 화면
-    └── shared/presentation/ # 공통 모의투자 고지
+    │   ├── menu/            # 메뉴 화면과 앱 설정 저장
+    │   └── onboarding/      # 설치 초기화, 앱 시작 게이트와 온보딩 화면
+    ├── shared/
+    │   ├── data/database/   # Drift 데이터베이스와 테이블
+    │   └── presentation/    # 공통 모의투자 고지
+    └── trading/             # 고정소수점과 거래 계산 규칙
 ```
 
-UI에는 준비되지 않은 가상 시세를 표시하지 않고, 모든 탭에 실제 거래가 아닌 시뮬레이션이라는 일본어 고지를 유지한다.
+앱 시작 게이트는 Riverpod으로 Drift 설치 상태를 초기화하고 최초 실행에는 일본어 온보딩, 완료 후에는 3개 탭 앱 셸을 표시한다. UI에는 준비되지 않은 가상 시세를 표시하지 않고, 모든 탭에 실제 거래가 아닌 시뮬레이션이라는 일본어 고지를 유지한다.
 
 ## 4. 검증 결과
 
@@ -46,8 +50,8 @@ UI에는 준비되지 않은 가상 시세를 표시하지 않고, 모든 탭에
 |---|---|
 | `dart format lib test` | 통과 |
 | `flutter analyze` | 문제 없음 |
-| `flutter test` | 23개 테스트 통과 |
+| `flutter test` | 35개 테스트 통과 |
 | `flutter build apk --debug` | 통과, `build/app/outputs/flutter-apk/app-debug.apk` 생성 |
 | iOS 빌드 | 현재 Linux 환경에서는 실행 불가 |
 
-Android 빌드 중 설치된 Android Studio와 command-line tools 사이의 SDK XML 버전 차이 경고가 한 번 출력됐지만 APK 생성은 성공했다. 도구 버전을 맞추는 작업은 출시 빌드 환경 구성 시 확인한다. iOS는 macOS, Xcode 및 서명 설정이 준비된 CI 또는 개발 환경에서 `flutter build ios --no-codesign`과 실제 기기 렌더링을 출시 게이트로 검증한다.
+온보딩 위젯 테스트는 최초 고지, 완료 상태 저장, 앱 재실행 시 미표시, Installation과 JPY 잔액의 단일 행 유지 및 초기화 실패 후 재시도 복구를 확인한다. Android 빌드 중 설치된 Android Studio와 command-line tools 사이의 SDK XML 버전 차이 경고가 한 번 출력됐지만 APK 생성은 성공했다. 도구 버전을 맞추는 작업은 출시 빌드 환경 구성 시 확인한다. iOS는 macOS, Xcode 및 서명 설정이 준비된 CI 또는 개발 환경에서 `flutter build ios --no-codesign`과 실제 기기 렌더링을 출시 게이트로 검증한다.
