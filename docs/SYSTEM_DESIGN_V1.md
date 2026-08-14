@@ -429,14 +429,19 @@ Flutter 앱은 일반 시장 데이터를 GMO Coin Public API에서 직접 조�
 
 ### 9.1 Flutter 앱
 
-| 영역 | 선택 기술 |
-|---|---|
-| 프레임워크 | Flutter / Dart |
-| 상태 관리 | Riverpod |
-| 로컬 데이터베이스 | Drift / SQLite |
-| WebSocket | `web_socket_channel` |
-| 차트 | `fl_chart` |
-| HTTP | Dart 기본 HTTP 또는 경량 HTTP Client |
+MVP의 출시 및 검증 대상은 Android와 iOS로 한정한다. Linux, macOS, Web 및 Windows 플랫폼 파일은 유지하지 않으며 지원 대상으로 안내하지 않는다.
+
+| 영역 | 선택 기술 | 초기 기준 버전 | 라이선스 |
+|---|---|---:|---|
+| 프레임워크 | Flutter / Dart | Flutter SDK 기준 | Flutter SDK 라이선스 |
+| 일본어 현지화 | `flutter_localizations` | Flutter SDK 기준 | Flutter SDK 라이선스 |
+| 상태 관리 | `flutter_riverpod` | `3.3.2` | MIT |
+| 로컬 데이터베이스 | `drift` + `drift_flutter` / SQLite | `2.34.3` / `0.3.1` | MIT |
+| WebSocket | `web_socket_channel` | `3.0.3` | BSD-3-Clause |
+| 차트 | `fl_chart` | `1.2.0` | MIT |
+| HTTP | `http` Client | `1.6.0` | BSD-3-Clause |
+
+버전은 2026-08-14에 pub.dev의 최신 안정 버전, 대상 플랫폼과 라이선스를 확인한 초기 기준이다. 단 `flutter_riverpod 3.4.2`는 Dart 3.12 이상이 필요해 현재 Flutter 3.41.9의 Dart 3.11.5와 호환되는 최신 안정판 `3.3.2`를 사용한다. `pubspec.lock`으로 실제 해석 버전을 고정하고 업데이트 시 호환성과 라이선스를 다시 확인한다. Drift 코드 생성 도구는 스키마 구현 작업에서 필요할 때만 개발 의존성으로 추가한다.
 
 ### 9.2 백엔드
 
@@ -451,11 +456,15 @@ Flutter 앱은 일반 시장 데이터를 GMO Coin Public API에서 직접 조�
 ### 9.3 구조 원칙
 
 - 기능 경계가 드러나는 단순한 구조를 우선한다.
+- `lib/src/app`과 `lib/src/features/<기능>`의 기능 중심 구조를 사용한다.
+- 메인 화면은 일본어 `銘柄`, `資産`, `メニュー` 3개 탭과 Flutter 기본 `Navigator`로 구성하고 별도 라우팅 패키지는 사용하지 않는다.
+- Riverpod의 전역 `ProviderScope` 아래에서 기능별 Provider를 정의하며 UI에 데이터 접근 구현을 직접 결합하지 않는다.
+- Repository는 네트워크나 데이터베이스 접근이 생기는 기능에만 도입하고, 별도 UseCase 계층은 복잡한 도메인 조합이 실제로 필요해질 때까지 추가하지 않는다.
 - 테스트 가능성과 책임 분리에 필요한 수준의 추상화만 도입한다.
 - 추가적인 Clean Architecture 계층, 대규모 DI 프레임워크 및 복잡한 추상화는 기본 선택으로 사용하지 않는다.
 - 새로운 패키지나 서비스를 추가할 때는 실제 필요성, 유지보수 부담 및 무료 사용 가능 여부를 먼저 확인한다.
 - 시장 데이터와 주문 도메인 로직을 UI 코드에 직접 결합하지 않는다.
-- 금액, 가격, 수량 계산에는 부동소수점 오차가 자산에 누적되지 않는 방식을 선택한다. 구체적인 수치 표현 방식은 구현 전에 결정한다.
+- 금액, 가격, 수량 계산은 5.6절의 12자리 `BigInt` 기반 고정소수점 규칙을 사용한다.
 
 ---
 
@@ -528,10 +537,7 @@ Cloudflare 무료 한도를 지속적으로 초과하면 자동으로 유료 전
 
 - 상세 화면 UI와 디자인 시스템
 - 메뉴 설정 항목
-- 라우팅 구조
-- 클래스 및 파일 구조
-- Repository, Service, UseCase 도입 범위
-- Riverpod Provider 구성
+- 기능별 Repository와 Provider의 상세 구성
 
 ### 12.2 데이터 및 계산
 

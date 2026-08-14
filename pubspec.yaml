@@ -1,5 +1,5 @@
 name: noson
-description: "A new Flutter project."
+description: "日本向け暗号資産現物シミュレーションアプリ。"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -28,12 +28,16 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  drift: ^2.34.3
+  drift_flutter: ^0.3.1
+  fl_chart: ^1.2.0
   flutter:
     sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
+  flutter_localizations:
+    sdk: flutter
+  flutter_riverpod: ^3.3.2
+  http: ^1.6.0
+  web_socket_channel: ^3.0.3
 
 dev_dependencies:
   flutter_test:

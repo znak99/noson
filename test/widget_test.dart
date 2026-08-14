@@ -1,30 +1,30 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:noson/main.dart';
+import 'package:noson/src/app/noson_app.dart';
+import 'package:noson/src/shared/presentation/simulation_notice.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('일본어 종목 탭과 모의투자 고지를 표시한다', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: NosonApp()));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text(SimulationNotice.message), findsOneWidget);
+    expect(find.text('対応銘柄'), findsOneWidget);
+    expect(find.text('BTC / JPY'), findsOneWidget);
+    expect(find.text('Flutter Demo Home Page'), findsNothing);
+    expect(find.byType(NavigationBar), findsOneWidget);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets('하단 탐색으로 자산과 메뉴 탭을 전환한다', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: NosonApp()));
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.tap(find.text('資産'));
+    await tester.pumpAndSettle();
+    expect(find.text('仮想ポートフォリオ'), findsOneWidget);
+
+    await tester.tap(find.text('メニュー'));
+    await tester.pumpAndSettle();
+    expect(find.text('このアプリについて'), findsOneWidget);
+    expect(find.text('プライバシー'), findsOneWidget);
   });
 }
